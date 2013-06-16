@@ -33,6 +33,8 @@ void logInfo(const char *msg, ...);
 void strip(char *str);
 int startsWith(const char *prefix, const char *s);
 
+/* TODO: close log etc */
+
 int use_syslog = 0;
 int check_interval = DEFAULT_CHECK_INTERVAL;
 
@@ -69,7 +71,6 @@ int main(int argc, char **argv)
 
     if (become_daemon) {
         becomeDaemon();
-        use_syslog = 1;
     }
 
     if (!config_loaded) {
@@ -91,33 +92,58 @@ void printUsage(void)
 
 void becomeDaemon(void)
 {
-    pid_t pid;
-
+    pid_t pid, sid;
     pid = fork();
 
-    /* error */
     if (pid < 0) {
+        /* error */
         logError("Fork failed.\n");
         exit(EXIT_FAILURE);
-    }
-
-    /* we are the parent */
-    if (pid > 0) {
+    } else if (pid > 0) {
+        /* we are the parent */
         exit(EXIT_SUCCESS);
     }
 
     umask(0);
 
     openlog("SWATd", LOG_NOWAIT | LOG_PID, LOG_USER);
-    syslog(LOG_NOTICE, "SWATd started.\n");
-    closelog();
+    use_syslog = 1;
+    logInfo("SWATd started.\n");
+
+    sid = setsid();
+    if (sid < 0) {
+        logError("Could not create process group\n");
+        exit(EXIT_FAILURE);
+    }
+
+    if (chdir("/") < 0) {
+        logError("Could not change working directory to /\n");
+        exit(EXIT_FAILURE);
+    }
+
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
 }
 
 void loadConfig(config_t *config, const char *path)
 {
     char line[2048];
-    FILE *fp = fopen(path, "r");
+    FILE *fp;
 
+    /* Don't run if the config file is world writable. */
+    struct stat stat_buf;
+    if (stat(path, &stat_buf) == -1) {
+        logError("Could not stat() %s\n", path);
+        exit(EXIT_FAILURE);
+    }
+    if (stat_buf.st_mode & 2) {
+        logError("Config file %s is world writable. This is dangerous.\n", path);
+        exit(EXIT_FAILURE);
+    }
+    
+    
+    fp = fopen(path, "r");
     if (fp == NULL) {
         logError("Could not open config file %s\n", path);
         exit(EXIT_FAILURE);
@@ -198,7 +224,12 @@ void monitor(config_t *config)
 
         if (ran == 0 && failed >= config->failure_count) {
             logInfo("%d sensor(s) failed. Executing the command.\n", failed);
-            system(config->execute);
+            retval = system(config->execute);
+            if (retval == -1) {
+                logError("Could not execute the command [%s]\n", config->execute);
+            } else if (retval != 0) {
+                logError("Command returned non-zero.\n");
+            }
             ran = 1;
         } else if (ran && failed < config->failure_count) {
             logInfo("Some sensors recovered. Allowing re-execution.\n");
