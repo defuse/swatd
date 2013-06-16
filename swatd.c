@@ -50,6 +50,7 @@ void logInfo(const char *msg, ...);
 void strip(char *str);
 int startsWith(const char *prefix, const char *s);
 void catch_signal(int signal);
+void writePID(const char *path);
 
 int use_syslog = 0;
 int check_interval = DEFAULT_CHECK_INTERVAL;
@@ -60,9 +61,10 @@ int main(int argc, char **argv)
     int become_daemon = 1;
     int config_loaded = 0;
     config_t config;
+    char *pidfile = NULL;
 
     opterr = 0;
-    while ((c = getopt(argc, argv, "sc:")) != -1) {
+    while ((c = getopt(argc, argv, "sc:p:")) != -1) {
         switch (c) {
             case 's':
                 become_daemon = 0;
@@ -70,6 +72,10 @@ int main(int argc, char **argv)
             case 'c':
                 loadConfig(&config, optarg);
                 config_loaded = 1;
+                break;
+            case 'p':
+                pidfile = malloc(strlen(optarg));
+                strcpy(pidfile, optarg);
                 break;
             case 'h':
                 printUsage();
@@ -93,6 +99,13 @@ int main(int argc, char **argv)
         becomeDaemon();
     }
 
+    if (pidfile != NULL) {
+        writePID(pidfile);
+        free(pidfile);
+        pidfile = NULL;
+    }
+
+
     if (!config_loaded) {
         loadConfig(&config, DEFAULT_CONFIG);
     }
@@ -107,6 +120,7 @@ void printUsage(void)
     printf("SWATd - Run scripts when you are being raided by the police.\n");
     printf("  -c CONFIG\t\tUse config file CONFIG.\n");
     printf("  -s\t\t\tDon't fork.\n");
+    printf("  -p\t\t\tPID file.\n");
     printf("  -h\t\t\tHelp menu.\n");
 }
 
@@ -333,4 +347,18 @@ void catch_signal(int signal)
         closelog();
         exit(EXIT_SUCCESS);
     }
+}
+
+void writePID(const char *path)
+{
+    pid_t pid = getpid();
+    FILE *fp = fopen(path, "w");
+    if (fp == NULL) {
+        logError("Error opening PID file.\n");
+        return;
+    }
+    if (fprintf(fp, "%d\n", pid) < 0) {
+        logError("Error writing to PID file.\n");
+    }
+    fclose(fp);
 }
