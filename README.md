@@ -23,6 +23,40 @@ create a `swatd` executable. If you want to install it as a daemon, refer to
 your operating system's manuals. To run SWATd from a terminal (non-daemon), pass
 the `-s` option.
 
+### Arch Linux
+
+To install SWATd on Arch Linux, copy `swatd` into `/usr/bin`:
+
+    # make
+    # cp swatd /usr/bin/
+    # chmod 775 /usr/bin/swatd
+    # chown root:root /usr/bin/swatd
+
+Create the configuration file (See the Configuration section below):
+
+    # mkdir /etc/swatd
+    # vim /etc/swatd/swatd.conf
+
+If you want SWATd to start when you boot, add the following to
+`/etc/systemd/system/swatd.service`.
+
+    [Unit]
+    Description=SWATd
+    
+    [Service]
+    Type=forking
+    PIDFile=/var/run/swatd.pid
+    ExecStart=/usr/bin/swatd -p /var/run/swatd.pid
+    Restart=on-abort
+    
+    [Install]
+    WantedBy=multi-user.target
+
+Then run:
+
+    # systemctl enable swatd.service
+    # systemctl start swatd.service
+
 Configuration
 -------------
 
