@@ -39,6 +39,7 @@ typedef struct SwatConfig {
 typedef struct SensorState {
     char *command;
     int last;
+    int failed;
 } sensor_t;
 
 void printUsage(void);
@@ -228,6 +229,7 @@ void monitor(config_t *config)
     for (i = 0; i < sensor_count; i++) {
         sensors[i].command = config->scripts[i];
         sensors[i].last = -1;
+        sensors[i].failed = 0;
     }
 
     failed = 0;
@@ -243,10 +245,14 @@ void monitor(config_t *config)
             } else {
                 /* Transition from zero to non-zero (sensor failed). */
                 if (sensors[i].last == 0 && retval != 0) {
+                    sensors[i].failed = 1;
                     failed++;
                 /* Transition from non-zero to zero (sensor recovered). */
                 } else if (sensors[i].last > 0 && retval == 0) {
-                    failed--;
+                    if (sensors[i].failed) {
+                        sensors[i].failed = 0;
+                        failed--;
+                    }
                 }
                 sensors[i].last = retval;
             }
