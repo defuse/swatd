@@ -16,6 +16,14 @@ powerful. For example, you could create a sensor that fails when your WiFi
 network is out of range, and another that fails when your ethernet cable is
 unplugged.
 
+Building and Installing
+-----------------------
+
+To build SWATd, `cd` into the source code directory and run `make`. This will
+create a `swatd` executable. If you want to install it as a daemon, refer to
+your operating system's manuals. To run SWATd from a terminal (non-daemon), pass
+the `-s` option.
+
 Configuration
 -------------
 
