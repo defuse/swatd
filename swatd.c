@@ -23,6 +23,7 @@
 #include <syslog.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <signal.h>
 
 #define DEFAULT_CONFIG "/etc/swatd/swatd.conf"
@@ -46,6 +47,7 @@ void printUsage(void);
 void becomeDaemon(void);
 void loadConfig(config_t *config, const char *path);
 void monitor(config_t *config);
+void runCommand(config_t *config);
 void logError(const char *msg, ...);
 void logInfo(const char *msg, ...);
 void strip(char *str);
@@ -243,10 +245,15 @@ void monitor(config_t *config)
             if (retval == -1) {
                 logError("Could not execute sensor [%s]\n", sensors[i].command);
             } else {
+                retval = WEXITSTATUS(retval);
                 /* Transition from zero to non-zero (sensor failed). */
                 if (sensors[i].last == 0 && retval != 0) {
-                    sensors[i].failed = 1;
-                    failed++;
+                    if (retval == 255) {
+                        runCommand(config);
+                    } else {
+                        sensors[i].failed = 1;
+                        failed++;
+                    }
                 /* Transition from non-zero to zero (sensor recovered). */
                 } else if (sensors[i].failed && retval == 0) {
                     sensors[i].failed = 0;
@@ -262,18 +269,23 @@ void monitor(config_t *config)
 
         if (ran == 0 && failed >= config->failure_count) {
             logInfo("%d sensor(s) failed. Executing the command.\n", failed);
-            retval = system(config->execute);
-            if (retval == -1) {
-                logError("Could not execute the command [%s]\n", config->execute);
-            } else if (retval != 0) {
-                logError("Command returned non-zero.\n");
-            }
+            runCommand(config);
             ran = 1;
         } else if (ran && failed < config->failure_count) {
             logInfo("Some sensors recovered. Allowing re-execution.\n");
             ran = 0;
         }
 
+    }
+}
+
+void runCommand(config_t *config)
+{
+    int retval = system(config->execute);
+    if (retval == -1) {
+        logError("Could not execute the command [%s]\n", config->execute);
+    } else if (retval != 0) {
+        logError("Command returned non-zero.\n");
     }
 }
 

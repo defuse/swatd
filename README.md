@@ -126,6 +126,9 @@ Here is an example configuration file:
     # =============================================================================
     # Sensor commands.
     # A sensor has 'failed' when the return code transisions from zero to non-zero.
+    # If a sensor's exit code is transitions from zero to 255, the command will be 
+    # executed immediately regardless of the 'threshold' setting, and the failure
+    # count will not be incremented.
     # WARNING: Sensor commands MUST terminate.
     # =============================================================================
     
