@@ -50,7 +50,7 @@ Here is an example configuration file:
     # =============================================================================
     # The number of seconds to wait between sensor checks.
     # =============================================================================
-    interval: 10
+    interval: 30
     
     # =============================================================================
     # The number of sensors that must 'fail' at the same time.

@@ -27,7 +27,7 @@
 
 #define DEFAULT_CONFIG "/etc/swatd/swatd.conf"
 #define MAX_SCRIPTS 100
-#define DEFAULT_CHECK_INTERVAL 10
+#define DEFAULT_CHECK_INTERVAL 30
 
 typedef struct SwatConfig {
     char *execute;
