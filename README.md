@@ -37,6 +37,10 @@ begin a line with its name, followed by a colon, followed by the value.
 Everything after a '#' is treated as a comment (ignored). Blank lines are
 ignored. All other lines define a sensor command.
 
+`interval` is the number of seconds to wait between sensor checks. `threshold`
+is the number of sensors that must fail before assuming you are being raided.
+`execute` is the command to execute when you are being raided.
+
 Here is an example configuration file:
 
     # This configuration makes SWATd continually check if /tmp/foobar exists. If
