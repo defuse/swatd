@@ -57,6 +57,14 @@ Then run:
     # systemctl enable swatd.service
     # systemctl start swatd.service
 
+You can check the status of SWATd by running:
+
+    # systemctl status swatd.service
+
+Read SWATd's log entries by running:
+
+    # journalctl /usr/bin/swatd
+
 Configuration
 -------------
 
