@@ -1,11 +1,12 @@
 SWATd
 =====
 
-SWATd is a daemon for running scripts when your house gets raided by the police.
-For example, if you use any kind of encryption, you can use SWATd to destroy the
-keys, instead of hoping the police are stupid enough to unplug your computer.
-SWATd can also be used for more mundane things like sending an email
-notification when a server goes down.
+SWATd is a daemon for running scripts when your house gets raided by the police
+(or broken into by criminals).  For example, if you use any kind of encryption,
+you can use SWATd to destroy the keys, instead of hoping the police (or
+criminals) are stupid enough to unplug your computer.  SWATd can also be used
+for more mundane things like sending an email notification when a server goes
+down.
 
 SWATd lets you configure 'sensors' that check your PC's external environment.
 When enough sensors 'fail', SWATd will conclude that you are being raided and
