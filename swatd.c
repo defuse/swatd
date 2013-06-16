@@ -7,6 +7,7 @@
 #include <syslog.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <signal.h>
 
 #define DEFAULT_CONFIG "/etc/swatd/swatd.conf"
 #define MAX_SCRIPTS 100
@@ -32,8 +33,7 @@ void logError(const char *msg, ...);
 void logInfo(const char *msg, ...);
 void strip(char *str);
 int startsWith(const char *prefix, const char *s);
-
-/* TODO: close log etc */
+void catch_signal(int signal);
 
 int use_syslog = 0;
 int check_interval = DEFAULT_CHECK_INTERVAL;
@@ -68,6 +68,10 @@ int main(int argc, char **argv)
         }
     }
     
+    if (signal(SIGTERM, catch_signal) == SIG_ERR) {
+        logError("Error while setting SIGTERM handler.\n");
+        exit(EXIT_FAILURE);
+    }
 
     if (become_daemon) {
         becomeDaemon();
@@ -79,7 +83,7 @@ int main(int argc, char **argv)
 
     monitor(&config);
 
-    return 0;
+    exit(EXIT_SUCCESS);
 }
 
 void printUsage(void) 
@@ -305,4 +309,12 @@ int startsWith(const char *prefix, const char *s)
         s++;
     } 
     return 1;
+}
+
+void catch_signal(int signal)
+{
+    if (signal == SIGTERM) {
+        closelog();
+        exit(EXIT_SUCCESS);
+    }
 }
