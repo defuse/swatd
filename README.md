@@ -3,8 +3,7 @@ SWATd
 
 SWATd is a daemon for running scripts when your house gets raided by the police.
 For example, if you use any kind of encryption, you can use SWATd to destroy the
-keys yourself, instead of hoping the police are stupid enough to unplug your
-computer.
+keys, instead of hoping the police are stupid enough to unplug your computer.
 
 SWATd lets you configure 'sensors' that check your PC's external environment.
 When enough sensors 'fail', SWATd will conclude that you are being raided and
