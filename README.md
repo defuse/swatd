@@ -65,6 +65,25 @@ Read SWATd's log entries by running:
 
     # journalctl /usr/bin/swatd
 
+### Debian 
+
+To install SWATd on Debian, copy `swatd` into `/usr/bin`:
+
+    # make
+    # cp swatd /usr/bin/
+    # chmod 775 /usr/bin/swatd
+    # chown root:root /usr/bin/swatd
+
+Create the configuration file (See the Configuration section below):
+
+    # mkdir /etc/swatd
+    # vim /etc/swatd/swatd.conf
+
+Then copy `swatd.init` to `/etc/init.d/` and enable it:
+
+    # cp swatd.init /etc/init.d/swatd
+    # update-rc.d swatd defaults
+
 Configuration
 -------------
 
