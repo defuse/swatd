@@ -11,7 +11,7 @@ SWATd lets you configure 'sensors' that check your PC's external environment.
 When enough sensors 'fail', SWATd will conclude that you are being raided and
 will run the script you have configured.
 
-Sensors are just commands (or scripts). A sensor 'fails' when its return code
+Sensors are just commands (or scripts). A sensor 'fails' when its exit code
 makes a transition from zero to non-zero. This makes configuration easy and
 powerful. For example, you could create a sensor that fails when your WiFi
 network is out of range, and another that fails when your ethernet cable is
@@ -127,7 +127,7 @@ Here is an example configuration file:
     
     # =============================================================================
     # Sensor commands.
-    # A sensor has 'failed' when the return code transisions from zero to non-zero.
+    # A sensor has 'failed' when the exit code transisions from zero to non-zero.
     # If a sensor's exit code is transitions from zero to 255, the command will be 
     # executed immediately regardless of the 'threshold' setting, and the failure
     # count will not be incremented.
