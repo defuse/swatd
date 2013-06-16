@@ -248,11 +248,9 @@ void monitor(config_t *config)
                     sensors[i].failed = 1;
                     failed++;
                 /* Transition from non-zero to zero (sensor recovered). */
-                } else if (sensors[i].last > 0 && retval == 0) {
-                    if (sensors[i].failed) {
-                        sensors[i].failed = 0;
-                        failed--;
-                    }
+                } else if (sensors[i].failed && retval == 0) {
+                    sensors[i].failed = 0;
+                    failed--;
                 }
                 sensors[i].last = retval;
             }
