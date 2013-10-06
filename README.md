@@ -31,13 +31,12 @@ the `-s` option.
 To install SWATd on Arch Linux, copy `swatd` into `/usr/bin`:
 
     # make
-    # cp swatd /usr/bin/
-    # chmod 775 /usr/bin/swatd
-    # chown root:root /usr/bin/swatd
+    # install swatd /usr/bin/
 
 Create the configuration file (See the Configuration section below):
 
     # mkdir /etc/swatd
+    # chmod 700 /etc/swatd
     # vim /etc/swatd/swatd.conf
 
 If you want SWATd to start when you boot, add the following to
@@ -73,13 +72,12 @@ Read SWATd's log entries by running:
 To install SWATd on Debian, copy `swatd` into `/usr/bin`:
 
     # make
-    # cp swatd /usr/bin/
-    # chmod 775 /usr/bin/swatd
-    # chown root:root /usr/bin/swatd
+    # install swatd /usr/bin/
 
 Create the configuration file (See the Configuration section below):
 
     # mkdir /etc/swatd
+    # chmod 700 /etc/swatd
     # vim /etc/swatd/swatd.conf
 
 Then copy `swatd.init` to `/etc/init.d/` and enable it:
