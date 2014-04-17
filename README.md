@@ -1,6 +1,8 @@
 SWATd
 =====
 
+[![Build Status](https://travis-ci.org/defuse/swatd.svg?branch=master)](https://travis-ci.org/defuse/swatd)
+
 SWATd is a daemon for running scripts when your house gets raided by the police
 (or broken into by criminals).  For example, if you use any kind of encryption,
 you can use SWATd to destroy the keys, instead of hoping the police (or
