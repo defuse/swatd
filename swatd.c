@@ -92,7 +92,7 @@ int main(int argc, char **argv)
                 exit(EXIT_FAILURE);
         }
     }
-    
+
     if (signal(SIGTERM, catch_signal) == SIG_ERR) {
         logError("Error while setting SIGTERM handler.\n");
         exit(EXIT_FAILURE);
@@ -118,7 +118,7 @@ int main(int argc, char **argv)
     exit(EXIT_SUCCESS);
 }
 
-void printUsage(void) 
+void printUsage(void)
 {
     printf("SWATd - Run scripts when you are being raided by the police.\n");
     printf("  -c CONFIG\t\tUse config file CONFIG.\n");
@@ -178,8 +178,8 @@ void loadConfig(config_t *config, const char *path)
         logError("Config file %s is world writable. This is dangerous.\n", path);
         exit(EXIT_FAILURE);
     }
-    
-    
+
+
     fp = fopen(path, "r");
     if (fp == NULL) {
         logError("Could not open config file %s\n", path);
@@ -241,7 +241,7 @@ void monitor(config_t *config)
         sleep(check_interval);
 
         for (i = 0; i < sensor_count; i++) {
-            retval = system(sensors[i].command); 
+            retval = system(sensors[i].command);
             if (retval == -1) {
                 logError("Could not execute sensor [%s]\n", sensors[i].command);
             } else {
@@ -346,14 +346,14 @@ int startsWith(const char *prefix, const char *s)
     if (strlen(s) < strlen(prefix)) {
         return 0;
     }
-    
+
     while (*prefix != '\0') {
         if (*prefix != *s) {
             return 0;
         }
         prefix++;
         s++;
-    } 
+    }
     return 1;
 }
 
