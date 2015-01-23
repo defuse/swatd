@@ -51,7 +51,6 @@ void runCommand(config_t *config);
 void logError(const char *msg, ...);
 void logInfo(const char *msg, ...);
 void strip(char *str);
-int startsWith(const char *prefix, const char *s);
 void catch_signal(int signal);
 void writePID(const char *path);
 
@@ -191,13 +190,13 @@ void loadConfig(config_t *config, const char *path)
 
     while (fgets(line, sizeof(line), fp) != NULL) {
         strip(line);
-        if (startsWith("threshold:", line)) {
+        if (strstr(line, "threshold:") == line) {
             sscanf(line + strlen("threshold:"), "%d", &config->failure_count);
         }
-        else if (startsWith("interval:", line)) {
+        else if (strstr(line, "interval:") == line) {
             sscanf(line + strlen("interval:"), "%d", &check_interval);
         }
-        else if (startsWith("execute:", line)) {
+        else if (strstr(line, "execute:") == line) {
             char *cmd = line + strlen("execute:");
             strip(cmd);
             config->execute = malloc(strlen(cmd) + 1);
@@ -339,22 +338,6 @@ void strip(char *str)
         *to = '\0';
         to--;
     }
-}
-
-int startsWith(const char *prefix, const char *s)
-{
-    if (strlen(s) < strlen(prefix)) {
-        return 0;
-    }
-
-    while (*prefix != '\0') {
-        if (*prefix != *s) {
-            return 0;
-        }
-        prefix++;
-        s++;
-    }
-    return 1;
 }
 
 void catch_signal(int signal)
