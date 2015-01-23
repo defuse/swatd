@@ -3,6 +3,27 @@ SWATd
 
 [![Build Status](https://travis-ci.org/defuse/swatd.svg?branch=master)](https://travis-ci.org/defuse/swatd)
 
+
+WARNING
+---------
+
+**READ THIS:** While this software may have a place, I (the author) strongly
+**do not recommend it**. Frankly, when I saw this repository had over 100
+"stars" on GitHub, I was shocked. I never intended this to be used so widely.
+**If you need to rely on SWATd, you have already lost.** First, law enforcement
+can just dump your RAM on the spot through your Firewire port without touching
+anything. Second, you're technically destroying evidence, and you could go to
+jail just for that. If you are actually using SWATd as a defense against law
+enforcement (which I **strongly do not recommend**), at least consult a lawyer.
+I feel that by releasing this code under the name "SWATd" and relating it to any
+sort of defense against law-enforcement, I am no better than those who peddle
+snakeoil crypto. I sincrely apologize for this, and I can only hope no one has
+been harmed. The code has been removed, but if you *really* need it, I've
+created a branch pointing to a previous commit.
+
+Old Description
+----------------
+
 SWATd is a daemon for running scripts when your house gets raided by the police
 (or broken into by criminals).  For example, if you use any kind of encryption,
 you can use SWATd to destroy the keys, instead of hoping the police (or
