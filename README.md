@@ -5,7 +5,7 @@ WARNING
 ---------
 
 **READ THIS:** While this software may have a place, I (the author) strongly
-**do not recommend it**. Frankly, when I saw this repository had over 100
+**do not recommend it**. Frankly, when I saw this repository had over 500
 "stars" on GitHub, I was shocked. I never intended this to be used so widely.
 **If you need to rely on SWATd, you have already lost.** First, law enforcement
 can just dump your RAM on the spot through your Firewire port without touching
