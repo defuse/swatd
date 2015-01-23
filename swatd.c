@@ -200,7 +200,7 @@ void loadConfig(config_t *config, const char *path)
         else if (startsWith("execute:", line)) {
             char *cmd = line + strlen("execute:");
             strip(cmd);
-            config->execute = malloc(strlen(cmd));
+            config->execute = malloc(strlen(cmd) + 1);
             strcpy(config->execute, cmd);
         } else if (strlen(line) > 0 && config->script_count < MAX_SCRIPTS) {
             config->scripts[config->script_count] = malloc(strlen(line) + 1);
