@@ -77,7 +77,7 @@ int main(int argc, char **argv)
                 config_loaded = 1;
                 break;
             case 'p':
-                pidfile = malloc(strlen(optarg));
+                pidfile = malloc(strlen(optarg) + 1);
                 strcpy(pidfile, optarg);
                 break;
             case 'h':
