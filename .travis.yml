@@ -1,3 +1,0 @@
-# This is a build configuration for travis-ci.org
-language: c
-script: make
