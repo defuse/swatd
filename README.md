@@ -12,12 +12,12 @@ alert you when the sensor fails.
 
 SWATd was originally written as a tool to defend against theft by criminals or
 to detect when your computer is captured by police. For example, you can set
-a sensor to detect if your WiFi network is available, and when it goes
-unavailable, automatically unmount encrypted volumes. So if someone steals your
-laptop from your house, your data will be safe. But, since SWATd only counts the
-failure when the sensor goes from a working state to a non-working state, if you
-boot up your laptop somewhere else, you don't need to worry about manually
-disabling it every time you leave your house.
+a sensor to detect if your WiFi network is in range, and when it goes out of
+range, automatically unmount encrypted volumes. So if someone steals your laptop
+from your house, your data will be safe. Since SWATd only counts the failure
+when the sensor *changes* from a "WiFi in range" state to a "WiFi out of range"
+state, if you use your laptop somewhere else, you don't need to worry about
+disabling SWATd every time you leave your house.
 
 **WARNING:** While this may be helpful for some, there are significant risks.
 For one, in some countries, including the United States, you could go to jail on
