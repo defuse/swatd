@@ -48,10 +48,10 @@ the `-s` option.
 
 ### Arch Linux
 
-To install SWATd on Arch Linux, copy `swatd` into `/usr/bin`:
+To install SWATd on Arch Linux, copy `swatd` into `/usr/local/bin`:
 
     # make
-    # install swatd /usr/bin/
+    # install swatd /usr/local/bin/
 
 Create the configuration file (See the Configuration section below):
 
@@ -68,7 +68,7 @@ If you want SWATd to start when you boot, add the following to
     [Service]
     Type=forking
     PIDFile=/var/run/swatd.pid
-    ExecStart=/usr/bin/swatd -p /var/run/swatd.pid
+    ExecStart=/usr/local/bin/swatd -p /var/run/swatd.pid
     Restart=on-abort
     
     [Install]
@@ -85,14 +85,14 @@ You can check the status of SWATd by running:
 
 Read SWATd's log entries by running:
 
-    # journalctl /usr/bin/swatd
+    # journalctl /usr/local/bin/swatd
 
 ### Debian 
 
-To install SWATd on Debian, copy `swatd` into `/usr/bin`:
+To install SWATd on Debian, copy `swatd` into `/usr/local/bin`:
 
     # make
-    # install swatd /usr/bin/
+    # install swatd /usr/local/bin/
 
 Create the configuration file (See the Configuration section below):
 
