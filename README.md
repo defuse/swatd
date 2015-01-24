@@ -1,6 +1,8 @@
 SWATd
 =====
 
+[![Build Status](https://travis-ci.org/defuse/swatd.svg?branch=master)](https://travis-ci.org/defuse/swatd)
+
 SWATd lets you configure 'sensors' that check your PC's external environment.
 When enough sensors 'fail', SWATd will run a script for you.
 
