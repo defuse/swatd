@@ -51,7 +51,6 @@ void runCommand(config_t *config);
 void logError(const char *msg, ...);
 void logInfo(const char *msg, ...);
 void strip(char *str);
-int startsWith(const char *prefix, const char *s);
 void catch_signal(int signal);
 void writePID(const char *path);
 
@@ -92,7 +91,7 @@ int main(int argc, char **argv)
                 exit(EXIT_FAILURE);
         }
     }
-    
+
     if (signal(SIGTERM, catch_signal) == SIG_ERR) {
         logError("Error while setting SIGTERM handler.\n");
         exit(EXIT_FAILURE);
@@ -118,7 +117,7 @@ int main(int argc, char **argv)
     exit(EXIT_SUCCESS);
 }
 
-void printUsage(void) 
+void printUsage(void)
 {
     printf("SWATd - Run scripts when you are being raided by the police.\n");
     printf("  -c CONFIG\t\tUse config file CONFIG.\n");
@@ -178,8 +177,8 @@ void loadConfig(config_t *config, const char *path)
         logError("Config file %s is world writable. This is dangerous.\n", path);
         exit(EXIT_FAILURE);
     }
-    
-    
+
+
     fp = fopen(path, "r");
     if (fp == NULL) {
         logError("Could not open config file %s\n", path);
@@ -191,13 +190,13 @@ void loadConfig(config_t *config, const char *path)
 
     while (fgets(line, sizeof(line), fp) != NULL) {
         strip(line);
-        if (startsWith("threshold:", line)) {
+        if (strstr(line, "threshold:") == line) {
             sscanf(line + strlen("threshold:"), "%d", &config->failure_count);
         }
-        else if (startsWith("interval:", line)) {
+        else if (strstr(line, "interval:") == line) {
             sscanf(line + strlen("interval:"), "%d", &check_interval);
         }
-        else if (startsWith("execute:", line)) {
+        else if (strstr(line, "execute:") == line) {
             char *cmd = line + strlen("execute:");
             strip(cmd);
             config->execute = malloc(strlen(cmd) + 1);
@@ -241,7 +240,7 @@ void monitor(config_t *config)
         sleep(check_interval);
 
         for (i = 0; i < sensor_count; i++) {
-            retval = system(sensors[i].command); 
+            retval = system(sensors[i].command);
             if (retval == -1) {
                 logError("Could not execute sensor [%s]\n", sensors[i].command);
             } else {
@@ -339,22 +338,6 @@ void strip(char *str)
         *to = '\0';
         to--;
     }
-}
-
-int startsWith(const char *prefix, const char *s)
-{
-    if (strlen(s) < strlen(prefix)) {
-        return 0;
-    }
-    
-    while (*prefix != '\0') {
-        if (*prefix != *s) {
-            return 0;
-        }
-        prefix++;
-        s++;
-    } 
-    return 1;
 }
 
 void catch_signal(int signal)
