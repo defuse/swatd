@@ -1,42 +1,30 @@
 SWATd
 =====
 
-WARNING
----------
-
-**READ THIS:** While this software may have a place, I (the author) strongly
-**do not recommend it**. Frankly, when I saw this repository had over 500
-"stars" on GitHub, I was shocked. I never intended this to be used so widely.
-**If you need to rely on SWATd, you have already lost.** First, law enforcement
-can just dump your RAM on the spot through your Firewire port without touching
-anything. Second, you're technically destroying evidence, and you could go to
-jail just for that. If you are actually using SWATd as a defense against law
-enforcement (which I **strongly do not recommend**), at least consult a lawyer.
-I feel that by releasing this code under the name "SWATd" and relating it to any
-sort of defense against law-enforcement, I am no better than those who peddle
-snakeoil crypto. I sincrely apologize for this, and I can only hope no one has
-been harmed. The code has been removed, but if you *really* need it, I've
-created a branch pointing to a previous commit.
-
-Old Description
-----------------
-
-SWATd is a daemon for running scripts when your house gets raided by the police
-(or broken into by criminals).  For example, if you use any kind of encryption,
-you can use SWATd to destroy the keys, instead of hoping the police (or
-criminals) are stupid enough to unplug your computer.  SWATd can also be used
-for more mundane things like sending an email notification when a server goes
-down.
-
 SWATd lets you configure 'sensors' that check your PC's external environment.
-When enough sensors 'fail', SWATd will conclude that you are being raided and
-will run the script you have configured.
+When enough sensors 'fail', SWATd will run a script for you.
 
-Sensors are commands (or scripts) that are repeatedly executed. A sensor 'fails'
-when its exit code makes a transition from zero to non-zero. This makes
-configuration easy and powerful. For example, you could create a sensor that
-fails when your WiFi network is out of range, and another that fails when your
-Ethernet cable is unplugged.
+Sensors are commands or scripts that get executed repeatedly. A sensor is said
+to fail when its exit code makes a transition from zero (working) to non-zero
+(not working). This makes configuration easy and powerful. For example, you can
+make a sensor that checks if your website is online, and then make a command to
+alert you when the sensor fails.
+
+SWATd was originally written as a tool to defend against theft by criminals or
+to detect when your computer is captured by police. For example, you can set
+a sensor to detect if your WiFi network is available, and when it goes
+unavailable, automatically unmount encrypted volumes. So if someone steals your
+laptop from your house, your data will be safe. But, since SWATd only counts the
+failure when the sensor goes from a working state to a non-working state, if you
+boot up your laptop somewhere else, you don't need to worry about manually
+disabling it every time you leave your house.
+
+**WARNING:** While this may be helpful for some, there are significant risks.
+For one, in some countries, including the United States, you could go to jail on
+obstruction of justice charges just for *running* SWATd, even though you are
+innocent. Second, SWATd is not perfect: law enforcement or a smart thief can
+still dump your RAM, thus getting your encryption keys, before doing anything
+that would make a sensor fail. Use with caution, and consult an attorney first.
 
 Building and Installing
 -----------------------
