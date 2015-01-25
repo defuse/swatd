@@ -27,6 +27,8 @@ obstruction of justice charges just for *running* SWATd, even though you are
 innocent. Second, SWATd is not perfect: law enforcement or a smart thief can
 still dump your RAM, thus getting your encryption keys, before doing anything
 that would make a sensor fail. Use with caution, and consult an attorney first.
+**It's most likely the case that if you find yourself needing to rely on SWATd,
+then you have already lost.**
 
 Building and Installing
 -----------------------
